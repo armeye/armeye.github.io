@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>GlusterFS Fail</title>
+    <link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+  </head>
+  <body style="font-family: 'Vollkorn', serif;">
+    <center><h1>GlusterFS Fail</h1></center>
+    <hr />
+    GlusterFs expected an undefined behavior of readdir cookies on ext4 filesystems and the shit finally hit the fan
+    when the Linux devs decided to break that undefined behavior.
+    
+    <h2>What happend?</h2>
+    Altough a readdir cookie for ext4 is 64 bits long it used to use only 32 bits. So the GlusterFs devs decided to went
+    back to the 1990s and used the upper 32 bits to encode their own stuff into it. Everything was peachy until the ext4
+    devs decided to finally use those upper bits.
+
+    <center><img src="img/facepalm.png" /></center>
+    
+    <h2>Oooops!</h2>
+    Due to the fast turnaround cycle of the linux kernel this change got away under the radar and new kernel images were
+    happily distributed while unknowingly breaking existing GlusterFs installations. By the time people started to notice
+    that something was wrong, it was already too late; and the rest is, as we say, foobar.
+
+    <h2>So, who's at fault here?</h2>
+    Well, both sides, actually. The GlusterFs devs for relying on undefined kernel behaviour and not abstracting
+    filesystem apis away and also the linux devs for breaking ABI and API whenever they want to. An average time of 6
+    months between new kernel releases, of which everyone of them could break the ABI is just insane.
+
+    <h2>What could have been done better?</h2>
+    Linux should adopt a better release cycle which carefully tries to not break ABI on major releases like, for example
+    FreeBSD. That would leave enough time to expose those rare bugs to write a patch before there are conflicting userspace
+    procedures.
+    </body>
+  </html>
