@@ -1,34 +1,36 @@
 <html>
 <head>
 <link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
-<title>The good and the bad</title>
+<title>One week of OpenBSD</title>
 </head>
 <body style="font-family: 'Vollkorn', serif; ">
-<h1>The good and the bad, or: software sucks</h1>
+<h1>One week of OpenBSD</h1>
 <hr>
-An unordered list of thoughts after changeing to OpenBSD one week ago.
+An unordered list of thoughts after switching to OpenBSD one week ago.
 
 <ul>
 <li>Installation was dead simple. Enter a  hostname and root password, accept the default for other options and 
 you're done. You may have to copy some firmware files via if you only connect to the net via wlan.</li>
-
+<br>
 <li>Support for graphics is amazing. X just works, I don't even have a config file at the moment. Hardware acceleleration is working fine, the driver even chose <a href="http://en.wikipedia.org/wiki/SNA_(computer_graphics)">
 sna</a> all by itself. Fonts look subjectively better than on FreeBSD.</li>
-
+<br>
 <li>Hardware support is either hit or miss, which is fine actually. A device is either supported or not. There are no halfworking drivers or devices. You still have to be careful to buy stuff that is supported. So not much different from Linux or FreeBSD.</li>
-
+<br>
 <li>Disk performance isn't as good as on FreeBSD. Copying between filesystems is somewhat slower. There is 
 definitely room for improvement here. </li>
-
+<br>
 <li>I haven't noticed a significant difference in multi threaded performance. </li>
-
+<br>
 <li>Disk mangement will be kind of weird at first if you come from FreeBSD or Linux. You have to deal with raw 
 devices and the disklabel utility to partition disks. Disklabel works surprisingly good after you get used to it.
 I found it easier to use than gpart. Encrypting disks is done through the 
 <a href="http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man4/softraid.4">softraid</a> 
 framework and takes a bit more work than geli.</li>
-
+<br>
 <li>The package repository has most of the packages you would expect on a modern OS, no surprises there.</li>
+<br>
+<li>No flash support. Not really a big deal. youtube-dl from packages works for most cases.</li>
 </ul>
 </body>
 </html>
