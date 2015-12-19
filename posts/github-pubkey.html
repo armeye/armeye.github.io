@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>Anspruchsdenken</title>
+<link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+</head>
+<body style="font-family: 'Vollkorn', serif;">
+<h1>Using pubkey ssh authentication with GitHub</h1>
+<hr />
+<a href="http://armeye.github.io">Home</a>
+<hr />
+<ol>
+<li>Generate a new public/private key pair<br>
+<b>ssh-keygen -f &nbsp;$keyname</b></li>
+<li>Log into your GitHub account and go to <b>Profile/Settings/SSH Keys</b><br>
+Copy the contents of &nbsp;$keyname.pub into the <b>key</b> field.<br>
+Add the key by clicking to on the <b>Add Key</b> button.</li>
+<li>Make sure you have ssh-agent running and add the key file to it by putting something like this in your .xinitrc or startup file<br>
+<pre>
+eval `ssh-agent`
+ssh-add $key
+</pre></li>
+<li>
+Go to the <b>.git</b> directory in your repo and change the url entry under [remote "origin"]<br>
+<b>url = git@github.com:$yourname/$yourrepo</b> 
+</li>
+<li>
+You can now push to to your repo without entering username or password.
+</li>
+</ol>
+</body>
+</html>
