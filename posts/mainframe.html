@@ -1,0 +1,94 @@
+<html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+<title>Is that a mainframe in your pocket, or are you just happy to see me?</title>
+</head>
+<body style="font-family: 'Vollkorn', serif; ">
+<h1>Is that a mainframe in your pocket, or are you just happy to see me?</h1>
+<hr />
+<a href="http://armeye.github.io">Home</a>
+<hr />
+<p>
+Back in the day, IBM mainframes were the places where the big boys used to go to play. Those behemoths of a long gone age are still around. 
+Safely tucked away in the basements of banks and universities without any chance of us mere mortals to have peak at them. The hardware is 
+insanely expensive and software is only available on a per cpu and year license no law abiding citizen can pay.
+A few years back, I had the privilge to see an IBM zSeries mainframe up close a few years ago at CEBIT. It was quite a sight. Huge disc arrays, 
+dozens of processors, some of them only dedicated to I/O or running java vm instructions with specialized intstruction sets. And all of 
+that packed in huge refrigerator sized black units with a power supply that could darken a whole city block.</p>
+
+<h2>Why should you care?</h2>
+<p>
+Some very smart people wrote an emulator for IBM mainframe hardware. It's aptly called <a href="http://www.hercules-390.org/">hercules</a>. 
+With it, you can emulate big iron hardware from s/360 
+up to zSeries. And, as any good software, it's open source. So you can tinker with it without having to cough up a few 100k(sic!).
+Now, this is all well and good. But what about the software? Sadly, up to date mainframe os are still not affordable for hobbyists. 
+But IBM has released ancient versions of some of their systems. In this post, I will focus on one of IBM's most famous mainframe systems, VM.</p>
+
+<h2>I did virtualization before it was cool</h2>
+<p>
+In todays terms, VM would be best described as equivalent to Xen and it's brethern.
+It is a hypervisor that runs on the bare metal and manages resources for other os instances. It's main user interface is the omnious cp, 
+which is shorthand for control programm.
+With it you can start up new instances of vm and assign resources like vrtual disks or printers to them. Like inception! And all of 
+that was possible back in the 80s. So, to reiterate, IBM was able to do todays hot stuff with their custom hard- and software decades ago.</p>
+
+<h2>'Nuff said, let's do this shit</h2>
+<p>
+As there is an emulator and some old free software and it's possible to run that on your home computer; let's get this show on the road, shall we?
+First, follow this simple steps:
+Install hercules with your package manager of choice
+Download images from <a href="http://gunkies.org/wiki/Installing_VM/370_on_Hercules">here</a>
+install a 3270 compatible terminal application
+Follow the intructions in point 2
+The steps in Point 2 will get you the desired results, but in a voodoo kind of way. Repeat strange incantations on the console, weave a dead 
+chicken and then, maybe, success. If you don't care about the technicalities of the installation process(btw, you should care!), skip to 
+the next topsection; because geek stuff will follow.</p>
+
+<center>
+<img src="../img/punchcard.jpg"><br>
+There is no punch line<br>
+<span style="font-size: 50%">
+by <a href="http://www.flickr.com/photos/binaryape">Pete Birkinshaw</a>
+<a href="http://creativecommons.org/licenses/by/2.0">cc by 2.0</a>
+</span>
+</center>
+
+<h2>I'll cut out your gizzards!</h2>
+<p>
+The cfg file for hercules is mostly kosher, you just need to remind it that its running as a s370. That's what the archmode line is for. Next, 
+there is a funky list of device numbers and device types. The numbers are what the s370 ueses to enumerate your devices by, the're going to 
+be important later on. The device types are much more interesting:
+<ol>
+<li>3420: Tape drive</li>
+<li>3525: card punch</li>
+<li>3505: card reader</li>
+<li>3330: dasd == ye olde hdd</li>
+<li>1403: line printer</li>
+<li>3270: Teletype terminal</li>
+</ol>
+the dasdinit lines set up disk images for 3330 disk components with 404 cylinders, those are going to hold our os.
+In the walktrough, we are loading(ipl) a tape from number 580. The tape contains a bare metal version of the vm/370 drr program. This software 
+will replay a dumped to tape version of a disk to another disk. the input command specifies the device to read from, while the output device is 
+for device where the data will be written to.
+Finally, with restore the contents fo the tape will be replayed to your disk. You will get a bunch of error messages on the hercules console 
+when you do that. The tape images won't feed quite right to hercules. Just type "quit" at its console. But by this point, you've got a valid 
+installation of vm/370 going.</p>
+
+Die Botschaft h&ouml;r ich wohl, allein mir feht der Glaube
+
+Connect into hercules via telnet, and you'll be prompted with a command line about the time; answer no. Cold boot the machine. To the next question answer enable all, this will enable all peripheral devices connected to your hercules instance. 
+You can now connect to your own vm/370 system with a 3270 client.
+To login, type logon maint; CPCMS. after that you should see something like this:
+<pre>
+DASD 190 LINKED R/W; R/O BY OPERATOR
+DASD 194 LINKED R/W; R/O BY OPERATOR
+LOGON AT 21:44:45 PST FRIDAY 04/26/13
+</pre>
+Congratulations, you just logged into a mainframe os! Now. what to do with this?
+You will be presented with a vm running the cp program. You can't do much interesting with so load the cms operating system in your vm:
+ipl(Initial Program Load) cms;
+This will get you a simple single user os. For starters, try edit, list * * *, msg op yo mama or set rdymsg smsg.
+
+Now, pull out your trusted vm/370 operators manual and cms command reference and have fun!
+
+</html>
