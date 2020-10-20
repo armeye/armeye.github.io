@@ -10,7 +10,7 @@
 <hr />
 OpenBSD 6.8 was just released, and it included a few fixes to vmd that allows us to run 9front without crashing
 so here goes nothing.<br>
-First, download the latest amd64 ISO from <a href="http://9front.org">9front</a> an create a disk image for 9front with <i>vmctl create</i>. The next step is to add edit the file /etc/vm.conf with a suitable entry for 9front like this>
+First, download the latest amd64 ISO from <a href="http://9front.org">9front</a> an create a disk image for 9front with <i>vmctl create</i>. I went for 24 Gigs. The next step is to add edit the file /etc/vm.conf with a suitable entry for 9front like this>
 <pre>
 vm "9front" {
         disable
@@ -23,7 +23,15 @@ vm "9front" {
         }
         owner pk
 }
-</pre>
 
+
+switch "uplink" {
+        interface bridge0
+}
+</pre>
+A few things are important here. vmd sets a random mac every time you boot up a vm, which confuses 9front. You have to set a static mac with lladdr. I use the NSA OUI(002091) here because, why not? 
+Next, you have to connect the vm to the network. I chose a bridge here, as 9front does not play nice with vmd's internal dhcp server. how to set that up is left as an exercise for the reader. 512M of memory
+is enough for must use cases unless you want to run <a href="http://golang.org">Go</a>.</br>
+Now we are ready to install
 </body>
 </html>
