@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>Github public key authentication</title>
+<link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+</head>
+<body style="font-family: 'Vollkorn', serif;">
+<h1>Running 9front on OpenBSD vmd</h1>
+<hr />
+<a href="http://armeye.github.io">Home</a>
+<hr />
+OpenBSD 6.8 was just released, and it included a few fixes to vmd that allows us to run 9front without crashing
+so here goes nothing.<br>
+First, download the latest amd64 ISO from <a href="http://9front.org">9front</a> an create a disk image for 9front with <i>vmctl create</i>. The next step is to add edit the file /etc/vm.conf with a suitable entry for 9front like this>
+<pre>
+vm "9front" {
+        disable
+        cdrom "/vms/9front.iso"
+        disk "/vms/9front.disk"
+        memory 512M
+        interface {
+                switch "uplink"
+                lladdr 00:20:91:ff:ee:04
+        }
+        owner pk
+}
+</pre>
+
+</body>
+</html>
