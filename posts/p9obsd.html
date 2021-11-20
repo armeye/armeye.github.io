@@ -26,7 +26,7 @@ vm "9front" {
 
 
 switch "uplink" {
-        interface bridge0
+        interface veb0
 }
 </pre>
 A few things are important here. vmd sets a random mac every time you boot up a vm, which confuses 9front. You have to set a static mac with lladdr. I use the NSA OUI(002091) here because, why not? 
